@@ -48,11 +48,68 @@ public class TestController
             List<String> data = new ArrayList<>();
             data.add("info1");
             data.add("info2");
+            try
+            {
+                Thread.sleep(9);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
             //放入缓存
             cacheChannel.set(region, key, data);
             return data;
         }
         return (List<String>) cacheObject.getValue();
+    }
+
+    private String cache = null;
+
+    @GetMapping("/getInfos2")
+    public String getInfos2()
+    {
+        if (cache == null)
+        {
+            log.info("查询数据库2");
+            try
+            {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            cache = "hello";
+        }
+        else
+        {
+            return cache;
+        }
+        return cache;
+    }
+
+
+    @GetMapping("/getInfos3")
+    public List<String> getInfos3()
+    {
+        CacheObject cacheObject = cacheChannel.get(region, key);
+        if (cacheObject.getValue() == null)
+        {
+            log.info("查询数据库3");
+            //缓存中没有找到，查询数据库获得
+            try
+            {
+                Thread.sleep(9);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            //放入缓存
+            cacheChannel.set(region, key, null);
+            return null;
+        }
+        return null;
     }
 
     /**
@@ -99,6 +156,7 @@ public class TestController
     @GetMapping("/clear")
     public String clear()
     {
+        cache = null;
         cacheChannel.clear(region);
         return "clear success";
     }
