@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="j2cache_demo" target="11" />
+      <module name="j2cache_demo" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
